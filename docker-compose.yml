@@ -1,35 +1,35 @@
 version: "3.5"
 services:
-  # fluentd:
-  #   container_name: fluentd
-  #   build: ./fluentd
-  #   ports:
-  #     - "24224:24224"
-  #     - "24224:24224/udp"
-  #   volumes:
-  #     - "./fluentd/pipeline/fluent.conf:/fluentd/etc/fluent.conf"
-  #   networks:
-  #     - elk
-
-  fluent-bit:
-    container_name: fluent-bit
-    image: fluent/fluent-bit:1.2
-    entrypoint:
-      [
-        "/fluent-bit/bin/fluent-bit",
-        "-c",
-        "/fluent-bit/etc/fluent-bit.conf"
-      ]
-    # environment:
-    #   - FLUENTD_AGGREGATOR_HOST=192.168.1.106
-    #   - FLUENTD_AGGREGATOR_PORT=24224
+  fluentd:
+    container_name: fluentd
+    build: ./fluentd
     ports:
       - "24224:24224"
+      - "24224:24224/udp"
     volumes:
-      - "./fluent-bit/:/fluent-bit/etc/"
-      - "./nginx/log/:/var/log/nginx"
+      - "./fluentd/pipeline/fluent.conf:/fluentd/etc/fluent.conf"
     networks:
       - elk
+
+  # fluent-bit:
+  #   container_name: fluent-bit
+  #   image: fluent/fluent-bit:1.2
+  #   entrypoint:
+  #     [
+  #       "/fluent-bit/bin/fluent-bit",
+  #       "-c",
+  #       "/fluent-bit/etc/fluent-bit.conf"
+  #     ]
+  #   # environment:
+  #   #   - FLUENTD_AGGREGATOR_HOST=192.168.1.106
+  #   #   - FLUENTD_AGGREGATOR_PORT=24224
+  #   ports:
+  #     - "24224:24224"
+  #   volumes:
+  #     - "./fluent-bit/:/fluent-bit/etc/"
+  #     - "./nginx/log/:/var/log/nginx"
+  #   networks:
+  #     - elk
 
   web:
     container_name: nginx
